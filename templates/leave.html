@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block heading %}Leave management{% endblock %}
+{% block content %}
+{% if current_role == 'EMPLOYEE' %}
+<section class="card"><h3>Request leave</h3><form class="form-grid" method="post"><label>Type<select name="leave_type"><option>Casual</option><option>Sick</option><option>Earned</option></select></label><label>Start<input type="date" name="start_date" required></label><label>End<input type="date" name="end_date" required></label><label class="wide">Reason<textarea name="reason" required></textarea></label><button class="primary">Submit request</button></form></section>
+{% endif %}
+<section class="card table-wrap"><table><thead><tr><th>Employee</th><th>Type</th><th>Dates</th><th>Reason</th><th>Status</th>{% if current_role in ['HR','ADMIN'] %}<th>Action</th>{% endif %}</tr></thead><tbody>
+{% for l in leaves %}<tr><td>{{ l["name"] if l["name"] is defined else current_employee_id }}</td><td>{{ l["leave_type"] }}</td><td>{{ l["start_date"] }} → {{ l["end_date"] }}</td><td>{{ l["reason"] }}</td><td><span class="badge {{ l['status']|lower }}">{{ l["status"] }}</span></td>{% if current_role in ['HR','ADMIN'] %}<td>{% if l["status"] == "Pending" %}<form class="inline" method="post" action="{{ url_for('leave_action',leave_id=l['id'],action='approve') }}"><button>Approve</button></form><form class="inline" method="post" action="{{ url_for('leave_action',leave_id=l['id'],action='reject') }}"><button>Reject</button></form>{% else %}—{% endif %}</td>{% endif %}</tr>{% endfor %}
+</tbody></table></section>
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block heading %}{{ current_role|title }} workspace{% endblock %}
+{% block content %}
+<div class="hero-card"><div><span class="eyebrow">{{ current_role }} CONTROL CENTER</span><h2>People operations at a glance.</h2><p>Manage the workforce while keeping access separated by role.</p></div><div class="big-number">{{ stats["employees"] }}</div></div>
+<div class="grid-4">
+  <div class="stat"><span>Employees</span><strong>{{ stats["employees"] }}</strong><small>Active directory</small></div>
+  <div class="stat"><span>Present today</span><strong>{{ stats["present_today"] }}</strong><small>Attendance marked</small></div>
+  <div class="stat"><span>Pending leave</span><strong>{{ stats["pending_leaves"] }}</strong><small>Needs review</small></div>
+  <div class="stat"><span>Payroll total</span><strong>₹{{ "{:,.0f}".format(stats["payroll_total"]) }}</strong><small>Demo payroll data</small></div>
+</div>
+<section class="card"><div class="section-head"><h3>Latest leave requests</h3><a href="{{ url_for('leave') }}">Manage leave →</a></div>
+{% for row in recent_leaves %}<div class="list-row"><div><b>{{ row["name"] }}</b><small>{{ row["leave_type"] }} · {{ row["start_date"] }} → {{ row["end_date"] }}</small></div><span class="badge {{ row['status']|lower }}">{{ row["status"] }}</span></div>{% else %}<p class="muted">No requests.</p>{% endfor %}</section>
+{% endblock %}

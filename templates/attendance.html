@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block heading %}Attendance{% endblock %}
+{% block content %}
+<div class="card table-wrap"><table><thead><tr><th>Date</th><th>Employee</th><th>Status</th>{% if current_role in ['HR','ADMIN'] %}<th>Quick action</th>{% endif %}</tr></thead><tbody>
+{% for a in attendance %}<tr><td>{{ a["attendance_date"] }}</td><td>{{ a["name"] if a["name"] is defined else current_employee_id }}</td><td><span class="badge {{ a['status']|lower }}">{{ a["status"] }}</span></td>{% if current_role in ['HR','ADMIN'] %}<td><form class="inline" method="post" action="{{ url_for('mark_attendance',employee_id=a['employee_id'],status='Present') }}"><button>Present</button></form><form class="inline" method="post" action="{{ url_for('mark_attendance',employee_id=a['employee_id'],status='Absent') }}"><button>Absent</button></form></td>{% endif %}</tr>{% endfor %}
+</tbody></table></div>
+{% endblock %}

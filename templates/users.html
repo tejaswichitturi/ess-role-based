@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block heading %}User & role management{% endblock %}
+{% block content %}
+<section class="card"><h3>Create login account</h3><p class="muted">Admin only. This controls who can enter the ESS and which role they receive.</p>
+<form class="add-grid" method="post" action="{{ url_for('add_user') }}"><input name="email" type="email" placeholder="Login email" required><input name="password" type="password" placeholder="Temporary password" required><select name="role"><option>EMPLOYEE</option><option>HR</option><option>ADMIN</option></select><input name="employee_id" placeholder="Employee ID (optional)"><button class="primary">Create account</button></form></section>
+<section class="card table-wrap"><table><thead><tr><th>Email</th><th>Name</th><th>Role</th><th>Employee ID</th><th>Action</th></tr></thead><tbody>
+{% for u in users %}<tr><td>{{ u["email"] }}</td><td>{{ u["name"] or "—" }}</td><td><span class="role-pill small">{{ u["role"] }}</span></td><td>{{ u["employee_id"] or "—" }}</td><td>{% if u["id"] != session["user_id"] %}<form method="post" action="{{ url_for('delete_user',user_id=u['id']) }}"><button>Delete</button></form>{% else %}Current account{% endif %}</td></tr>{% endfor %}
+</tbody></table></section>
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block login_content %}
+<div class="login-page">
+  <div class="login-art">
+    <div class="brand"><span class="brand-mark">E</span><div><strong>ESS</strong><small>People Hub</small></div></div>
+    <div class="hero-copy"><span class="eyebrow">EMPLOYEE SELF SERVICE</span><h1>One place for people, work & pay.</h1><p>A simple role-based employee portal built as a real-world student project.</p></div>
+    <div class="login-note">Secure access • Attendance • Leave • Payroll</div>
+  </div>
+  <div class="login-card">
+    <span class="eyebrow">WELCOME BACK</span><h2>Sign in</h2><p class="muted">Use one of the demo accounts below.</p>
+    <form method="post">
+      <label>Email<input name="email" type="email" placeholder="you@ess.com" required></label>
+      <label>Password<input name="password" type="password" placeholder="••••••••" required></label>
+      <button class="primary full">Sign in →</button>
+    </form>
+    <div class="demo-box">
+      <strong>Demo accounts</strong>
+      <div>Employee: <b>employee@ess.com</b> / employee123</div>
+      <div>HR: <b>hr@ess.com</b> / hr123</div>
+      <div>Admin: <b>admin@ess.com</b> / admin123</div>
+    </div>
+  </div>
+</div>
+{% endblock %}

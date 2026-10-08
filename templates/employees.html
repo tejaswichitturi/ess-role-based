@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block heading %}Employee directory{% endblock %}
+{% block content %}
+<div class="section-head"><div><p class="muted">HR/Admin only. Employees cannot access this section.</p></div></div>
+<section class="card">
+<form class="add-grid" method="post" action="{{ url_for('add_employee') }}">
+<input name="employee_id" placeholder="Employee ID" required><input name="name" placeholder="Full name" required><input name="email" type="email" placeholder="Email" required><input name="department" placeholder="Department" required><input name="designation" placeholder="Designation" required><input name="phone" placeholder="Phone"><input name="joining_date" type="date"><button class="primary">+ Add employee</button>
+</form>
+</section>
+<section class="card table-wrap"><table><thead><tr><th>ID</th><th>Name</th><th>Department</th><th>Designation</th><th>Status</th></tr></thead><tbody>
+{% for e in employees %}<tr><td>{{ e["employee_id"] }}</td><td><b>{{ e["name"] }}</b><small>{{ e["email"] }}</small></td><td>{{ e["department"] }}</td><td>{{ e["designation"] }}</td><td><span class="badge active">{{ e["status"] }}</span></td></tr>{% endfor %}
+</tbody></table></section>
+{% endblock %}

@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>ESS — {{ current_role|title if current_role else "Login" }}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+{% if current_role %}
+<div class="shell">
+  <aside class="sidebar">
+    <div class="brand"><span class="brand-mark">E</span><div><strong>ESS</strong><small>People Hub</small></div></div>
+    <div class="role-pill">{{ current_role }}</div>
+    <nav>
+      <a href="{{ url_for('dashboard') }}">⌂ <span>Dashboard</span></a>
+      <a href="{{ url_for('profile') }}">◎ <span>My Profile</span></a>
+      <a href="{{ url_for('attendance') }}">◷ <span>Attendance</span></a>
+      <a href="{{ url_for('leave') }}">▱ <span>Leave</span></a>
+      <a href="{{ url_for('payroll') }}">₹ <span>Payroll</span></a>
+      {% if current_role in ['HR','ADMIN'] %}
+      <a href="{{ url_for('employees') }}">♙ <span>Employees</span></a>
+      {% endif %}
+      {% if current_role == 'ADMIN' %}
+      <a href="{{ url_for('user_management') }}">⚙ <span>User Management</span></a>
+      {% endif %}
+    </nav>
+    <div class="sidebar-bottom">
+      <div class="mini-user">{{ current_email }}</div>
+      <a class="logout" href="{{ url_for('logout') }}">↪ Sign out</a>
+    </div>
+  </aside>
+  <main class="main">
+    <header class="topbar">
+      <div><span class="eyebrow">EMPLOYEE SELF SERVICE</span><h1>{% block heading %}Workspace{% endblock %}</h1></div>
+      <div class="user-chip"><span>{{ current_role[0] }}</span>{{ current_role }}</div>
+    </header>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}{% for category, message in messages %}<div class="flash {{ category }}">{{ message }}</div>{% endfor %}{% endif %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+  </main>
+</div>
+{% else %}
+{% block login_content %}{% endblock %}
+{% endif %}
+</body>
+</html>

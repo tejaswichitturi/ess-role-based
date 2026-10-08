@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block heading %}Good to see you, {{ employee["name"].split()[0] }}{% endblock %}
+{% block content %}
+<div class="hero-card">
+  <div><span class="eyebrow">EMPLOYEE VIEW</span><h2>Your work, all in one place.</h2><p>Here is your personal ESS snapshot. You only see information belonging to your account.</p></div>
+  <div class="avatar">{{ employee["name"][0] }}</div>
+</div>
+<div class="grid-3">
+  <div class="stat"><span>Department</span><strong>{{ employee["department"] }}</strong><small>{{ employee["designation"] }}</small></div>
+  <div class="stat"><span>Employee ID</span><strong>{{ employee["employee_id"] }}</strong><small>{{ employee["status"] }}</small></div>
+  <div class="stat"><span>Latest Net Pay</span><strong>₹{{ "{:,.0f}".format(payroll[0]["net_salary"]) if payroll else "0" }}</strong><small>Most recent payroll</small></div>
+</div>
+<div class="two-col">
+  <section class="card"><div class="section-head"><h3>Recent attendance</h3><a href="{{ url_for('attendance') }}">View all</a></div>
+  {% for row in attendance %}<div class="list-row"><div><b>{{ row["attendance_date"] }}</b></div><span class="badge {{ row['status']|lower }}">{{ row["status"] }}</span></div>{% else %}<p class="muted">No attendance records.</p>{% endfor %}</section>
+  <section class="card"><div class="section-head"><h3>My leave</h3><a href="{{ url_for('leave') }}">View all</a></div>
+  {% for row in leaves %}<div class="list-row"><div><b>{{ row["leave_type"] }}</b><small>{{ row["start_date"] }} → {{ row["end_date"] }}</small></div><span class="badge {{ row['status']|lower }}">{{ row["status"] }}</span></div>{% else %}<p class="muted">No leave requests yet.</p>{% endfor %}</section>
+</div>
+{% endblock %}
